@@ -4,6 +4,8 @@
   "description": "## Évaluation Studi n°2 - \"Dynamiser vos sites web avec Javascript\" - Dice game",
   "main": "index.js",
   "scripts": {
+    "tailwind": "tailwindcss -i ./src/css/input.css -o ./dist/output.css --watch",
+    "dev": "postcss ./src/css/input.css -o ./dist/output.css --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,6 +19,9 @@
   },
   "homepage": "https://github.com/floretcl/Eval2-Studi-Dynamiser-Sites-Javascript-23-01-2023#readme",
   "devDependencies": {
+    "autoprefixer": "^10.4.13",
+    "postcss": "^8.4.21",
+    "postcss-cli": "^10.1.0",
     "prettier": "^2.8.3",
     "prettier-plugin-tailwindcss": "^0.2.1",
     "tailwindcss": "^3.2.4"
