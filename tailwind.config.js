@@ -10,11 +10,10 @@ module.exports = {
       current: 'currentColor',
       'red': '#fe3a44',
       'light-red': 'ff4750',
-      'light-gray': '#f7f7f7',
-      'dark-gray': '#cdcdcd',
+      'light-gray': '#efefef',
+      'dark-gray': '#b3b3b3',
       'white': '#ffffff',
       'black': '#000000'
-
     },
     extend: {
       fontFamily: {
