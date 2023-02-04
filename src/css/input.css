@@ -1,3 +1,28 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+/* CUSTOM */
+
+.max-h-800 {
+    max-height: 800px;
+    
+}
+
+.bg-half-light-gray-half-white {
+    background: linear-gradient(180deg, #efefef 0 42%, #ffffff 43% 100%);
+}
+
+@media all and (min-width: 640px) {
+    .bg-half-light-gray-half-white {
+        background: linear-gradient(90deg, #efefef 0 50%, #ffffff 50% 100%);
+    }  
+}
+
+@media all and (min-width: 1024px) {
+    .lg\:max-w-1280px {
+        max-width: 1280px;
+    }
+}
