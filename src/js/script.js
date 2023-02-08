@@ -209,7 +209,7 @@ class DiceGame {
 
     initDiceImg() {
         // update display
-        setDiceImage(6);
+        setDiceImage(0);
     }
     
     initCurrentPlayer() {
@@ -226,6 +226,7 @@ class DiceGame {
         } else {
             setPlayer2Indicators();
         }  
+        this.initDiceImg();
     }
 
     initButtonsState() {
@@ -260,9 +261,7 @@ class DiceGame {
             this.player1.score >= maxScore ? console.log("Player 1 win") : console.log("Player 2 win");
             // game ending -> reset display
             this.initButtonsState();
-            this.initPlayersScore();
             initPlayersIndicators();
-            setDiceImage(6);
         }
     }
 }
