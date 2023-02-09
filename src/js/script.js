@@ -21,29 +21,35 @@ const maxScore = 100;
 
 // FUNCTIONS
 
-const getRandomIntIncl = (min, max) => {
+const getRandomIntInclusive = (min, max) => {
     const mini = Math.ceil(min);
     const maxi = Math.floor(max);
     return Math.floor(Math.random() * (maxi - mini + 1)) + mini;
 }
 
+// VIEW FUNCTIONS
+
 const rollButtonEnable = () => {
     rollButton.removeAttribute('disabled');
+    rollButton.classList.add('group', 'transition', 'ease-in-out', 'duration-200', 'hover:scale-105');
     rollButtonIcon.classList.replace('stroke-dark-gray', 'stroke-red');
 }
 
 const rollButtonDisable = () => {
     rollButton.setAttribute('disabled', '');
+    rollButton.classList.remove('group', 'transition', 'ease-in-out', 'duration-200', 'hover:scale-105');
     rollButtonIcon.classList.replace('stroke-red', 'stroke-dark-gray');
 }
 
 const holdButtonEnable = () => {
     holdButton.removeAttribute('disabled');
+    holdButton.classList.add('group', 'transition', 'ease-in-out', 'duration-200', 'hover:scale-105');
     holdButtonIcon.classList.replace('stroke-dark-gray', 'stroke-red');
 }
 
 const holdButtonDisable = () => {
     holdButton.setAttribute('disabled', '');
+    holdButton.classList.remove('group', 'transition', 'ease-in-out', 'duration-200', 'hover:scale-105');
     holdButtonIcon.classList.replace('stroke-red', 'stroke-dark-gray');
 }
 
@@ -88,7 +94,7 @@ const setPlayer2RoundScore = (score) => {
     player2RoundScore.innerText = score;
 }
 
-// CLASS
+// CLASSES
 
 class Player {
     constructor(nb) {
@@ -98,16 +104,14 @@ class Player {
     }
 
     rollDice(diceFaces) {
-        const diceValue = getRandomIntIncl(1, diceFaces);
-        console.log(`You've got a ${diceValue}`);
-        // update display
+        const diceValue = getRandomIntInclusive(1, diceFaces);
+        alert(`You've got a ${diceValue}`);
         setDiceImage(diceValue);
         return diceValue
     }
 
     setScore(score) {
         this.score = score;
-        // update display
         if (this.nb === 1) {
             setPlayer1Score(score);
         } else {
@@ -117,7 +121,6 @@ class Player {
 
     setRoundScore(score) {
         this.roundScore = score;
-        // update display
         if (this.nb === 1) {
             setPlayer1RoundScore(score);
         } else {
@@ -127,7 +130,9 @@ class Player {
 
     holdScore() {
         this.score += this.roundScore;
-        // update display
+        if (this.score >= 100) {
+            this.score = 'WIN';
+        }
         this.setScore(this.score);
         this.setRoundScore(0);
     }
@@ -141,128 +146,111 @@ class DiceGame {
     }
 
     startGame() {
-        console.log("Game start");
-
+        alert('Game start');
+        // init game state and view
         this.initDiceImg();
         this.initPlayersScore();
         this.initCurrentPlayer();
         this.newRoundButtonsState();
 
-        console.log(`Player ${this.currentPlayerNb}, it's your round.`);
+        alert(`Player ${this.currentPlayerNb}, it's your round.`);
     }
 
     roll(){
-        if (this.currentPlayerNb === 1) {
-            // reset player round score (0)
-            this.player1.setRoundScore(0);
-            // roll dice according to nb of faces
-            const diceValue = this.player1.rollDice(diceFaces);
+        // get current player
+        let currentPlayer = this.currentPlayerNb === 1 ? this.player1 : this.player2;
+        // reinit player round score
+        currentPlayer.setRoundScore(0);
+        // player dice roll dice according to nb of faces
+        const diceValue = currentPlayer.rollDice(diceFaces);
 
-            // if dice value isn't 1 then player can roll dice again or hold his round score
-            // else player lose round score and pass his round
-            if (diceValue !== 1) {
-                this.player1.setRoundScore(diceValue);
-                this.sameRoundButtonsState();
-
-                console.log("Do you roll dice again or hold round score?");
-            } else {
-                this.changeCurrentPlayer();
-                this.newRoundButtonsState();
-                console.log("You pass your round");
-                console.log(`Player ${this.currentPlayerNb}, it's your round.`);
-            }
+        // if dice value isn't 1 then player can roll dice again or hold his round score
+        // else player loose round score and pass his round
+        if (diceValue !== 1) {
+            currentPlayer.setRoundScore(diceValue);
+            this.retryRoundButtonsState();
         } else {
-            // reset player round score (0)
-            this.player2.setRoundScore(0);
-            // roll dice according to nb of faces
-            const diceValue = this.player2.rollDice(diceFaces);
-
-            // if dice value isn't 1 then player can roll dice again or hold his round score
-            // else player lose round score and pass his round
-            if (diceValue !== 1) {
-                this.player2.setRoundScore(diceValue);
-                this.sameRoundButtonsState();
-
-                console.log("Do you roll dice again or hold round score?");
-            } else {
-                this.changeCurrentPlayer();
-                this.newRoundButtonsState();
-
-                console.log("You pass your round");
-                console.log(`Player ${this.currentPlayerNb}, it's your round.`);
-            }
+            alert('You pass your round');
+            this.changeCurrentPlayer();
         }
-        this.testIfWinner();
     }
 
     hold() {
-        if (this.currentPlayerNb === 1) {
-            this.player1.holdScore();
-        } else {
-            this.player2.holdScore();
+        // get current player
+        let currentPlayer = this.currentPlayerNb === 1 ? this.player1 : this.player2;
+        // player hold, add round score to global score
+        currentPlayer.holdScore();
+
+        // if current player win, it's end game
+        let win = this.ifWinner(currentPlayer);
+         // else next player
+        if (!win) {
+            this.changeCurrentPlayer();
         }
-        this.changeCurrentPlayer();
-        this.newRoundButtonsState();
-        console.log(`Player ${this.currentPlayerNb}, it's your round.`);
-        this.testIfWinner();
     }
 
     initDiceImg() {
-        // update display
         setDiceImage(0);
     }
     
     initCurrentPlayer() {
         this.currentPlayerNb = 1;
-        // update display
         setPlayer1Indicators();
     }
 
     changeCurrentPlayer() {
+        // switch player nb variable and init view according to current player
         this.currentPlayerNb = (this.currentPlayerNb === 1) ? 2 : 1;
-        // update display
         if (this.currentPlayerNb === 1) {
             setPlayer1Indicators();
         } else {
             setPlayer2Indicators();
         }  
         this.initDiceImg();
+        this.newRoundButtonsState();
+
+        alert(`Player ${this.currentPlayerNb}, it's your round.`);
     }
 
     initButtonsState() {
-        // update display
         rollButtonDisable();
         holdButtonDisable();
     }
 
     newRoundButtonsState() {
-        // update display
         rollButtonEnable();
         holdButtonDisable();
     }
 
-    sameRoundButtonsState() {
-        // update display
+    retryRoundButtonsState() {
         rollButtonEnable();
         holdButtonEnable();
     }
-
+    
     initPlayersScore() {
-        this.player1.setScore(90);
+        this.player1.setScore(0);
         this.player1.setRoundScore(0);
-        this.player2.setScore(90);
+        this.player2.setScore(0);
         this.player2.setRoundScore(0);
     }
 
-    testIfWinner() {
-        // If a player has maximum score, he wins
-        if (this.player1.score >= maxScore || this.player2.score >= maxScore) {
-            // display winner 
-            this.player1.score >= maxScore ? console.log("Player 1 win") : console.log("Player 2 win");
-            // game ending -> reset display
-            this.initButtonsState();
-            initPlayersIndicators();
+    ifWinner(player) {
+        // If a player win
+        if (player.score === 'WIN') {
+            // show winner 
+            alert(`Player ${player.nb} win`);
+            // game ending
+            this.resetGame();
+            return true;
+        } else {
+            return false;
         }
+    }
+
+    resetGame() {
+        // reinit view, ready for a new game
+        this.initButtonsState();
+        initPlayersIndicators();
     }
 }
 
@@ -288,7 +276,7 @@ rollButton.addEventListener('click', () => {
 });
 
 // If hold button clicked, hold round score and add it to global score
-// then change player, new game round
+// then change player and wait
 holdButton.addEventListener('click', () => {
     diceGame.hold();
 });
