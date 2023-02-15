@@ -7,22 +7,27 @@ class DiceGame {
         this.currentPlayerNb = 0;
         this.currentPlayer = undefined;
         this.diceValue = 0;
+        this.inGame = false;
+        this.newGameButtonEnabled = true;
+        this.rollButtonEnabled = false;
+        this.holdButtonEnabled = false;
     }
 
     startGame = () => {
         // init game state
+        this.inGame = true;
         this.initDiceValue();
         this.initPlayersScore();
         this.setCurrentPlayer(1);
         this.newRoundButtonsState();
 
-        showModal(`The game begins.\nPlayer ${this.currentPlayerNb}, you start.`);
+        //showModal(`The game begins.\nPlayer ${this.currentPlayerNb}, you start.`);
     }
 
     roll = () => {
         // player dice roll dice according to nb of faces
         this.diceValue = this.currentPlayer.rollDice(this.diceFaces);
-        setDiceImage(this.diceValue);
+        //setDiceImage(this.diceValue);
 
         // if dice value isn't 1 then player can roll dice again or hold his round score
         // else player loose round score and pass his round
@@ -30,7 +35,7 @@ class DiceGame {
             this.currentPlayer.setRoundScore(this.diceValue);
             this.retryRoundButtonsState();
         } else {
-            showModal(`Player ${this.currentPlayerNb}, you've got a 1.\nYou pass your round.`);
+            //showModal(`Player ${this.currentPlayerNb}, you've got a 1.\nYou pass your round.`);
             this.currentPlayer.setRoundScore(0);
             this.toggleCurrentPlayer();
             this.initDiceValue();
@@ -57,7 +62,7 @@ class DiceGame {
 
     initDiceValue = () => {
         this.diceValue = 0;
-        setDiceImage(0);
+        //setDiceImage(0);
     }
 
     initPlayersScore = () => {
@@ -71,13 +76,13 @@ class DiceGame {
         this.currentPlayerNb = nb;
         if (this.currentPlayerNb === 1) {
             this.currentPlayer = this.player1;
-            setPlayer1Indicators();
+            //setPlayer1Indicators();
         } else if (this.currentPlayerNb === 2) {
             this.currentPlayer = this.player2;
-            setPlayer2Indicators();
+            //setPlayer2Indicators();
         } else {
             this.currentPlayer = undefined;
-            initPlayersIndicators();
+            //initPlayersIndicators();
         }
     }
 
@@ -88,25 +93,31 @@ class DiceGame {
     }
 
     initButtonsState = () => {
-        setRollButtonEnable(false);
-        setHoldButtonEnable(false);
+        //setRollButtonEnable(false);
+        this.rollButtonEnabled = false;
+        //setHoldButtonEnable(false);
+        this.holdButtonEnabled = false;
     }
 
     newRoundButtonsState = () => {
-        setRollButtonEnable(true);
-        setHoldButtonEnable(false);
+        //setRollButtonEnable(true);
+        this.rollButtonEnabled = true;
+        //setHoldButtonEnable(false);
+        this.holdButtonEnabled = false;
     }
 
     retryRoundButtonsState = () => {
-        setRollButtonEnable(true);
-        setHoldButtonEnable(true);
+        //setRollButtonEnable(true);
+        this.rollButtonEnabled = true;
+        //setHoldButtonEnable(true);
+        this.holdButtonEnabled = true;
     }
 
     isWinner = (player) => {
         // If a player win
         if (player.score === 'WIN') {
             // show winner 
-            showModal(`Player ${player.nb} win`);
+            //showModal(`Player ${player.nb} win`);
             // game ending
             this.resetGame();
             return true;
@@ -119,5 +130,8 @@ class DiceGame {
         // reinit state, ready for a new game
         this.initButtonsState();
         this.setCurrentPlayer(0);
+        this.inGame = false;
     }
 }
+
+module.exports = DiceGame;

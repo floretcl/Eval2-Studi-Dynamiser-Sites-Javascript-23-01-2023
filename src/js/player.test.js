@@ -12,24 +12,25 @@ class Player {
     setScore = (score) => {
         this.score = score;
         if (this.nb === 1) {
-            setPlayer1Score(score);
+            //setPlayer1Score(score);
         } else {
-            setPlayer2Score(score);
+            //setPlayer2Score(score);
         }
     }
 
     setRoundScore = (score) => {
         this.roundScore = score;
         if (this.nb === 1) {
-            setPlayer1RoundScore(score);
+            //setPlayer1RoundScore(score);
         } else {
-            setPlayer2RoundScore(score);
+            //setPlayer2RoundScore(score);
         }
     }
 
     holdScore = () => {
         this.score += this.roundScore;
-        this.setScore(this.score);
         this.setRoundScore(0);
     }
 }
+
+module.exports = Player;
