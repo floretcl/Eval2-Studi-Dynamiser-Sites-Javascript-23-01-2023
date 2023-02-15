@@ -11,7 +11,8 @@ module.exports = {
       'red': '#fe3a44',
       'light-red': '#ff4750',
       'light-gray': '#efefef',
-      'dark-gray': '#737373',
+      'gray': '#737373',
+      'dark-gray': '#111111',
       'white': '#ffffff',
       'black': '#000000'
     },
@@ -31,6 +32,6 @@ module.exports = {
       },
     },
   },
-  darkMode: 'class',
+  darkMode: 'media',
   plugins: [],
 }
