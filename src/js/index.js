@@ -15,6 +15,7 @@ const rollButtonIcon = document.getElementById('roll-btn-icon');
 const holdButton = document.getElementById('hold-btn');
 const holdButtonIcon = document.getElementById('hold-btn-icon');
 const diceImage = document.getElementById('dice-img');
+const darkDiceImage = document.getElementById('dark-dice-img');
 
 const modal = document.getElementById('modal');
 const modalText = document.getElementById('modal-text');
@@ -27,11 +28,17 @@ const setRollButtonEnable = (enable) => {
     if (enable) {
         rollButton.removeAttribute('disabled');
         rollButton.classList.add('group', 'transition', 'ease-in-out', 'duration-200', 'hover:scale-105');
-        rollButtonIcon.classList.replace('stroke-dark-gray', 'stroke-red');
+        rollButtonIcon.classList.remove('stroke-gray');
+        rollButtonIcon.classList.remove('dark:stroke-light-gray');
+        rollButtonIcon.classList.add('stroke-red'); 
+        rollButtonIcon.classList.add('dark:stroke-red');
     } else {
         rollButton.setAttribute('disabled', '');
         rollButton.classList.remove('group', 'transition', 'ease-in-out', 'duration-200', 'hover:scale-105');
-        rollButtonIcon.classList.replace('stroke-red', 'stroke-dark-gray');
+        rollButtonIcon.classList.add('stroke-gray');
+        rollButtonIcon.classList.add('dark:stroke-light-gray');
+        rollButtonIcon.classList.remove('stroke-red'); 
+        rollButtonIcon.classList.remove('dark:stroke-red');
     }
     
 }
@@ -40,11 +47,17 @@ const setHoldButtonEnable = (enable) => {
     if (enable) {
         holdButton.removeAttribute('disabled');
         holdButton.classList.add('group', 'transition', 'ease-in-out', 'duration-200', 'hover:scale-105');
-        holdButtonIcon.classList.replace('stroke-dark-gray', 'stroke-red');
+        holdButtonIcon.classList.remove('stroke-gray');
+        holdButtonIcon.classList.remove('dark:stroke-light-gray');
+        holdButtonIcon.classList.add('stroke-red'); 
+        holdButtonIcon.classList.add('dark:stroke-red');
     } else {
         holdButton.setAttribute('disabled', '');
         holdButton.classList.remove('group', 'transition', 'ease-in-out', 'duration-200', 'hover:scale-105');
-        holdButtonIcon.classList.replace('stroke-red', 'stroke-dark-gray');
+        holdButtonIcon.classList.add('stroke-gray');
+        holdButtonIcon.classList.add('dark:stroke-light-gray');
+        holdButtonIcon.classList.remove('stroke-red'); 
+        holdButtonIcon.classList.remove('dark:stroke-red');
     }
     
 }
@@ -71,7 +84,8 @@ const setPlayer2Indicators = () => {
 }
 
 const setDiceImage = (nb) => {
-    diceImage.src = `./images/dice/Dice-${nb}.svg`;
+    diceImage.srcset = `./images/dice/Dice-${nb}.svg`;
+    darkDiceImage.srcset = `./images/dice/Dice-dark-${nb}.svg`;
 }
 
 const setPlayer1Score = (score) => {
