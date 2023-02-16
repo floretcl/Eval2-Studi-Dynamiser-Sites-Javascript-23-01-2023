@@ -4,8 +4,9 @@
   "description": "## Évaluation Studi n°2 - \"Dynamiser vos sites web avec Javascript\" - Dice game",
   "main": "index.js",
   "scripts": {
-    "tailwind": "tailwindcss -i ./src/css/input.css -o ./dist/output.css --watch",
-    "dev": "postcss ./src/css/input.css -o ./dist/output.css --watch",
+    "tailwind": "tailwindcss -i ./src/css/input.css -o ./dist/css/output.css --watch",
+    "dev": "postcss ./src/css/input.css -o ./dist/css/output.css --watch",
+    "build": "postcss ./src/css/input.css -o ./dist/css/output.css && cp -R ./src/images/ ./dist/images/ && mkdir ./dist/js/ && cp ./src/js/*.js ./dist/js && cp ./src/*.html ./dist/ && rm ./dist/js/*.test.js",
     "test": "mocha"
   },
   "repository": {
