@@ -2,6 +2,8 @@
 
 ## Évaluation Studi n°2 - "Dynamiser vos sites web avec Javascript" - Dice game
 
+[Website](https://dicegame-floretcl.netlify.app)
+
 Technologies used :
 
     - HTML
